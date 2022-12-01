@@ -89,7 +89,7 @@ while running:
     if ks[pygame.K_y]:
         use_clock = not use_clock
 
-	# variable boundaries
+    # variable boundaries
     if layers < 0:
         layers = 0
 
