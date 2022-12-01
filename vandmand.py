@@ -1,17 +1,21 @@
 """
 keys:
-    q/a		change layers
-    w/s		change circles per layer
+    q/a		change number of layers
+    w/s		change number of circles per layer
     e/d		change circle radius
-    r/f		change jitter
+    r/f		change jitter amount
     t/g		change fps
-    y		set/unset use of clock
+    y		set/unset use of clock (fps)
 """
 import pygame
 import math
 import random
 
 def polar_to_cartesian(r,θ):
+    """ translate polar (r,θ) coordinates into cartesian (x,y) coordinates
+            r	radius
+            θ	angle
+    """
     x = r * math.cos(θ)
     y = r * math.sin(θ)
     return (x,y)
@@ -20,11 +24,12 @@ def polar_to_cartesian(r,θ):
 layers = 13
 circles_per_layer = 17 
 circle_radius = 5
-rnd_scalar = 0.01
+amount_jitter = 0.01
 fps = 30
 fps_max = 120
 use_clock = True
 
+# colors
 color_circle = (10,230,65)
 color_background = (255, 0, 0)
 
@@ -68,11 +73,11 @@ while running:
     if ks[pygame.K_d]:
         circle_radius -= 1
 
-    # rnd_scalar 
+    # amount_jitter 
     if ks[pygame.K_r]:
-        rnd_scalar += 0.001
+        amount_jitter += 0.001
     if ks[pygame.K_f]:
-        rnd_scalar -= 0.001
+        amount_jitter -= 0.001
 
     # fps
     if ks[pygame.K_t]:
@@ -84,12 +89,12 @@ while running:
     if ks[pygame.K_y]:
         use_clock = not use_clock
 
-	# fix variable boundaries
+	# variable boundaries
     if layers < 0:
         layers = 0
 
-    if rnd_scalar < 0:
-        rnd_scalar = 0
+    if amount_jitter < 0:
+        amount_jitter = 0
 
     if circles_per_layer < 0:
         circles_per_layer = 0
@@ -99,7 +104,7 @@ while running:
     elif fps > fps_max:
         fps = fps_max
 
-    # Fill the background with white
+    # Fill in the background
     screen.fill(color_background)
 
     # Draw
@@ -110,15 +115,16 @@ while running:
     for i in range(layers):
         layer_radius = min(screen_width,screen_height)/(layers + 1) * (i + 1)
         for j in range(circles_per_layer):
+            # Calculate evenly spaced angles, then add a bit of randomness
             θ = 2*math.pi * j / circles_per_layer
-            θ += rnd_scalar * math.sin(random.uniform(0,2*math.pi))
+            θ += amount_jitter * math.sin(random.uniform(0,2*math.pi))
+            # Translate into cartesian (x,y) coordinates
             (x_rel,y_rel) = polar_to_cartesian(layer_radius,θ)
             pos = (x_rel + screen_width/2, y_rel + screen_height/2)
-
+            # Draw the circle
             pygame.draw.circle(screen, color_circle, pos, circle_radius)
-
     
-    # Flip the display (execute the drawing to the screen)
+    # Flip the display (execute the drawings to the screen)
     pygame.display.flip()
 
     # manage fps (only if use_clock is True)
