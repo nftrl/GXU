@@ -1,10 +1,8 @@
 # GXU-2022
 
-
-PYGAME PRIMER [https://realpython.com/pygame-a-primer]
+### [PYGAME PRIMER](https://realpython.com/pygame-a-primer)
 A good introduction to the pygame module
 
-## Examples
 ### [SNAKE](https://www.edureka.co/blog/snake-game-with-pygame)
 A simple Snake game in pygame
 
