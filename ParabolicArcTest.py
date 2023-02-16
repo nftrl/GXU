@@ -2,6 +2,11 @@ import pygame
 import math
 
 #TODO
+#Create player
+#Create all from pos of player
+#Turns
+#Powerups/Store?
+
 
 
 
@@ -34,10 +39,10 @@ class ball(object):
         #Motion with downwards acceleration
         distY = (y_vel * time) +((-4.9 * time ** 2) / 2)
 
-        newx = round(distX + startx)
-        newy = round(starty - distY)
+        newX = round(distX + startx)
+        newY = round(starty - distY)
 
-        return newx, newy
+        return newX, newY
 
 
 def drawScreen():
